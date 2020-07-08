@@ -90,6 +90,44 @@ extension PresentableRouter {
 
 Obs.: It requires `ShowableRouter` and `Router` protocols.
 
+---
+
+### PushableRouter
+
+Usage:
+1. Make your Router implement `PushableRouter`
+```swift
+final class SomeRouter: PushableRouter {
+    // ...
+    
+}
+```
+2. Simply call its `start()` method
+```swift
+let router = SomeRouter(...)
+router.start()
+```
+
+Implementation:
+```swift
+import UIKit
+
+protocol PushableRouter: ShowableRouter {
+    var presentingViewController: UINavigationController { get }
+}
+
+extension PushableRouter {
+    func show(viewController: UIViewController, animated: Bool) {
+        currentViewController = viewController
+        presentingViewController.pushViewController(viewController, animated: animated)
+    }
+}
+```
+
+Obs.: It requires `ShowableRouter` and `Router` protocols.
+
+--- 
+
 ### Router
 
 A prerequisite for `ShowableRouter`.
