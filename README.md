@@ -48,3 +48,87 @@ extension Builder {
 }
 
 ```
+---
+## Router/Coordinator pattern protocols
+
+- [x] PresentableRouter
+- [x] PushableRouter
+- [ ] TabBarRouter
+- [ ] TabPageRouter
+
+### PresentableRouter
+
+Usage:
+1. Make your Router implement `PresentableRouter`
+```swift
+final class SomeModalRouter: PresentableRouter {
+    // ...
+    
+}
+```
+2. Simply call its `start()` method
+```swift
+let router = SomeModalRouter(...)
+router.start()
+```
+
+Implementation:
+```swift
+import UIKit
+
+protocol PresentableRouter: ShowableRouter {
+    var presentingViewController: UIViewController { get }
+}
+
+extension PresentableRouter {
+    func show(viewController: UIViewController, animated: Bool) {
+        currentViewController = viewController
+        presentingViewController.present(viewController, animated: animated)
+    }
+}
+```
+
+Obs.: It requires `ShowableRouter` and `Router` protocols.
+
+### Router
+
+A prerequisite for `ShowableRouter`.
+
+Implementation:
+```swift
+import UIKit
+
+protocol Router: class {
+    var currentViewController: UIViewController? { get }
+    func start()
+    func start(animated: Bool)
+}
+
+extension Router {
+    func start() {
+        start(animated: true)
+    }
+}
+```
+
+### ShowableRouter
+
+A prerequisite for `PushableRouter`, `PresentableRouter`, `RootRouter` and `TabPageRouter`
+
+Implementation:
+```swift
+import UIKit
+
+protocol ShowableRouter: Router {
+    var currentViewController: UIViewController? { get set }
+    func createViewController() -> UIViewController
+    func show(viewController: UIViewController, animated: Bool)
+}
+
+extension ShowableRouter {
+    func start(animated: Bool = true) {
+        let viewController = createViewController()
+        show(viewController: viewController, animated: animated)
+    }
+}
+```
