@@ -5,6 +5,8 @@ A list of awesome helpers for Swift and iOS
 
 Usage:
 ```swift
+extension UIView: Builder {}
+
 lazy var label = UILabel()
     .. \.text <- "Hello, World!"
     .. \.font <- .systemFont(ofSize: 40)
