@@ -172,3 +172,52 @@ extension ShowableRouter {
     }
 }
 ```
+
+---
+
+## AppDelegateMock
+
+Implementation steps:
+1. Remove `@UIApplicationMain` from `AppDelegate.swift`
+2. Create a `main.swift` file and add this:
+
+```swift
+// main.swift
+
+import UIKit
+
+let appDelegateClass: AnyClass =
+    NSClassFromString("TestsAppDelegate") ?? AppDelegate.self
+
+        UIApplicationMain(
+    CommandLine.argc,
+    CommandLine.unsafeArgv,
+    nil,
+    NSStringFromClass(appDelegateClass)
+)
+```
+
+3. Create a `TestsAppDelegate.swift` file -- which will be our mock. 
+4. Add it to the desired tests target
+5. Implement it:
+
+```swift
+import UIKit
+@testable import BoilerplateProject
+
+@objc(TestsAppDelegate)
+class TestsAppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+
+        // do some testing setup here
+
+        return true
+    }
+
+}
+```
