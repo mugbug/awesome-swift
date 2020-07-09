@@ -189,7 +189,7 @@ import UIKit
 let appDelegateClass: AnyClass =
     NSClassFromString("TestsAppDelegate") ?? AppDelegate.self
 
-        UIApplicationMain(
+UIApplicationMain(
     CommandLine.argc,
     CommandLine.unsafeArgv,
     nil,
@@ -203,7 +203,7 @@ let appDelegateClass: AnyClass =
 
 ```swift
 import UIKit
-@testable import BoilerplateProject
+@testable import YourProjectName
 
 @objc(TestsAppDelegate)
 class TestsAppDelegate: UIResponder, UIApplicationDelegate {
